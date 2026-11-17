@@ -17,4 +17,4 @@ cd CV_detailed_JamesAzam
 latexmk -pdf CV_detailed_JamesAzam.tex
 ```
 
-Compiled PDFs and LaTeX build files are not tracked in git.
+LaTeX build files are not tracked in git.

@@ -64,6 +64,3 @@ rsconnect/
 *.bcf
 *.run.xml
 *.xdv
-
-# Compiled CVs
-*.pdf
