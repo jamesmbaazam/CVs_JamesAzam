@@ -13,7 +13,10 @@
 \usepackage{makecell}
 \usepackage{multicol}
 % Start a new page if less than #1 of space is left (keeps headings with their first entry)
-\newcommand{\needspace}[1]{\par\vskip 0pt plus #1\penalty -200\vskip 0pt plus -#1\relax}
+\makeatletter
+\newcommand{\needspace}[1]{\par\begingroup\setlength{\dimen@}{#1}\dimen@ii\pagegoal\advance\dimen@ii-\pagetotal
+  \ifdim\dimen@>\dimen@ii\ifdim\dimen@ii>\z@\vfil\fi\penalty-\@M\fi\endgroup}
+\makeatother
 \renewcommand\theadalign{bc}
 \renewcommand\theadfont{\bfseries}
 \renewcommand\theadgape{\Gape[4pt]}
@@ -26,12 +29,16 @@
 \address{London School of Hygiene \& \\ Tropical Medicine (LSHTM), \\Keppel Street, \\London WC1E 7HT, \\United Kingdom}{ }
 \mobile{(+44) 7931 424395}
 \email{james.azam@lshtm.ac.uk}
-\homepage{https://jamesmbaazam.github.io/}{} % The first argument is the url for the clickable link, the second argument is the url displayed in the template - this allows special characters to be displayed such as the tilde in this example
+\homepage{https://jamesmbaazam.github.io/}{}
+\social[orcid]{0000-0001-5782-7330}
+\social[googlescholar][2MopbFUAAAAJ]{Google Scholar}
+\social[github]{jamesmbaazam} % The first argument is the url for the clickable link, the second argument is the url displayed in the template - this allows special characters to be displayed such as the tilde in this example
 
 \begin{document}
 
 \makecvtitle % Print the CV title
 
+\needspace{6\baselineskip}
 \section{Education}
 \cventry{Feb, 2018 -- Apr, 2022}{PhD Applied Mathematics}{The South African Centre for Epidemiological Modelling and Analysis (SACEMA), 
 Stellenbosch University}{South Africa}{}{} 
@@ -54,6 +61,7 @@ Stellenbosch University}{South Africa}{}{}
 \cvitem{Supervisor}{Mr. Vincent K. Dedu}
 \vspace{0.4cm}
 
+\needspace{25\baselineskip}
 \section{Professional Experience}
 \cventry{Sep, 2025 -- Present}{Research Fellow}{\textit{Centre for Mathematical Modelling of Infectious Diseases}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{
 	\textbf{Duties:}
@@ -63,8 +71,7 @@ Stellenbosch University}{South Africa}{}{}
 			\item Developing machine learning models to predict the spatial spread of type 2 vaccine-derived poliovirus outbreaks in Africa and the Middle East.
 			\item Analysing multi-pathogen wastewater surveillance data as part of the South African Wastewater Consortium in collaboration with the National Institute for Communicable Diseases (NICD), the South African Centre for Epidemiological Modelling and Analysis (SACEMA), the Modelling and Simulation Hub, Africa (MASHA), and the Gauteng City-Region Observatory (GCRO).
 		\end{itemize}
-\item Supervising master's student projects
-\item Teaching and grading assignments and projects on master's programme modules, including the MSc Epidemiology Distance Learning Programme
+\item Teaching on the Data Challenge module of the MSc Health Data Science: facilitating the Git and GitHub session and the R for data exploration and visualisation sessions, and tutoring a group of 4--5 students on data challenges set by external organisations, including the UK Health Security Agency (UKHSA), UNICEF, private start-ups, and public health data science companies.
 	\end{itemize}
 }
 \cventry{Nov, 2022 -- Aug, 2025}{Research Software Engineer}{\textit{Epiverse-TRACE}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{
@@ -105,6 +112,7 @@ Stellenbosch University}{South Africa}{}{}
 		\item Contributed to the design of proposals for new analyses for Anglo American, including a study on Noise-Induced Hearing Loss among miners.
 \end{itemize}}
 
+\needspace{6\baselineskip}
 \section{Research Affiliations}
 
 \cventry{Jul, 2026 -- Present}{Research Fellow}{The South African Centre for Epidemiological Modelling and Analysis (SACEMA)}{Stellenbosch University}{South Africa}{Honorary affiliation in recognition of sustained contributions to SACEMA’s research and training activities. The role fosters collaborative research, training, and data sharing. }
@@ -113,8 +121,10 @@ Stellenbosch University}{South Africa}{}{}
 
 \cventry{Jan, 2025 -- Present}{Senior Research Fellow}{German-West African Centre for Global Health and Pandemic Prevention (G-WAC)}{Kwame Nkrumah University of Science and Technology}{Ghana}{Honorary appointment in recognition of contributions to G-WAC’s regional capacity building initiatives in infectious disease modelling and global health research. This role is aimed at facilitating collaborative research, training, and data sharing.}
 
+\needspace{6\baselineskip}
 \section{Publications}
 
+\needspace{6\baselineskip}
 \subsection{Published}
 
 \cvlistitem{Nightingale, E.S., Robert, A., Auzenbergs, M., \textbf{Azam, J.M.}, Villabona-Arenas, J., Fu, H., Sherratt, K., Funk, S., Jit, M., Atkins, K.E. \& O'Reilly, K. (2026). Bridging data and decision-making: A mathematical modelling perspective on infectious disease elimination. \textit{PLOS Global Public Health} (in press).}
@@ -145,6 +155,7 @@ Stellenbosch University}{South Africa}{}{}
 
 \cvlistitem{Lukwa, A.T., Siya, A., Zablon, K.N., \textbf{Azam, J.M.} \& Alaba, O.A. (2020). Socioeconomic inequalities in food insecurity and malnutrition among under-five children: within and between-group inequalities in Zimbabwe. \textit{BMC Public Health}, 20(1), 1199. \url{https://doi.org/10.1186/s12889-020-09295-z}}
 
+\needspace{6\baselineskip}
 \subsection{In review}
 
 \cvlistitem{Brand et al., A scalable marginalisation approach for double interval censored epidemiological delays. \textit{US CDC internal clearance review}}
@@ -153,14 +164,17 @@ Stellenbosch University}{South Africa}{}{}
 \cvlistitem{Valle-Campos et al., Collaborative Curriculum Development and Delivery of Epidemiological Data Science Training in Africa. \textit{Submitted to Epidemics}}
 \cvlistitem{Gómez-Bermeo et al., The Epi-Training Kit Translation and Localisation for Africa: Strengthening Capacity in Epidemiological Modelling through South–South Collaboration. \textit{Submitted to Epidemics}}
 
+\needspace{6\baselineskip}
 \subsection{In preparation}
 
 \cvlistitem{\textbf{Azam et al.}, Predicting the spatial spread of vaccine-derived polio outbreaks in Africa using machine learning.}
 \cvlistitem{\textbf{Azam et al.}, Daily versus weekly data in epidemiological forecasting: computational and practical implications.}
 
+\needspace{6\baselineskip}
 \subsection{Media}
 \cvlistitem{Forbes.com. Will Coronavirus Measures Slow The Spread Of Measles? Ask This Ghanaian. Jul 2020. URL: \url{https://www.forbes.com/sites/andrewwight/2020/07/29/will-coronavirus-measures-slow-measles-ask-this-ghanaian/}}
 
+\needspace{6\baselineskip}
 \section{Fellowships, Honours, and Awards}
 \cventry{Sep, 2020 \& Sep, 2021}{Best student oral presentation}{SACEMA Research Days}{}{}{}
 \cventry{Dec, 2019}{Stellenbosch University Library Open Access Fund}{\pounds 405}{}{}{A competitively awarded subsidy towards an Open Access Publication fee.}
@@ -174,7 +188,9 @@ Stellenbosch University}{South Africa}{}{}
 
 \cventry{Feb, 2016}{Master's Bursary}{R120,000}{SACEMA}{Stellenbosch University, South Africa}{}
 
+\needspace{6\baselineskip}
 \section{Presentations}
+\needspace{6\baselineskip}
 \subsection{Conference Oral Presentations}
 
 \cvitem{Apr, 2025}{\texttt{epichains}: an R package for analysing transmission chains data. \textit{Humanitarian Modelling Dialogue Workshop, WHO Pandemic Hub, Berlin, Germany}}
@@ -195,6 +211,7 @@ Stellenbosch University}{South Africa}{}{}
 
 \cvitem{Aug, 2017}{\textbf{JM Azam}, JRC Pulliam. Measles in a school in Stellenbosch, South Africa. \textit{SACEMA Research Days (MSc Student Presentation)}, Stellenbosch, South Africa.}
 
+\needspace{6\baselineskip}
 \subsection{Invited Talks}
 \cvitem{Nov, 2024}{Epiverse-TRACE: Advancing and Enabling Collaborative Open-Source R Tools for Outbreak Analytics, JUNIPER Weekly Seminar (virtual)}
 
@@ -210,6 +227,7 @@ Stellenbosch University}{South Africa}{}{}
 
 \cvitem{Apr, 2019}{\textit{Measles outbreak response vaccination: the role of the vaccine supply chain in low-income settings}, Department of Logistics, Stellenbosch University}
 
+\needspace{6\baselineskip}
 \subsection{Poster Presentations}
 \cvitem{Dec, 2019}{\textbf{JM Azam}, MJ Ferrari, JRC Pulliam. A framework for evaluating vaccine delivery strategies for responding to measles outbreaks in hard-to-reach populations. \textit{Epidemics7, Charleston, United States (Presented on my behalf).}}
 
@@ -217,6 +235,7 @@ Stellenbosch University}{South Africa}{}{}
 
 \cvitem{Jun, 2016}{\textbf{JM Azam}, MI Andersson, E du Toit, M Nieuwoudt. Modelling Hepatitis B Transmission in sub-Saharan Africa - A Focus on the Impact of Vaccination Within Existing HIV MTCT Infrastructure. \textit{Meaningful Modelling of Epidemiological Data, MMED (Student Presentation)}, African Institute for Mathematical Sciences (AIMS), Muizenberg, South Africa.}
 
+\needspace{6\baselineskip}
 \section{Panel Discussions}
 \cvitem{Nov, 2024}{\textbf{WHO R\&D Blueprint Virtual Consultation.} \textit{Preparing for containment and mitigation of pandemic H5N1 influenza.} We discussed gaps in our knowledge and present approaches to tackling a potential H5N1 widespread outbreak.}
 
@@ -226,10 +245,12 @@ Stellenbosch University}{South Africa}{}{}
 
 \cvitem{Dec, 2018}{\textbf{Science Communication for Policy Engagement.} \textit{Science Forum South Africa (SFSA), CSIR International Convention Centre, Pretoria, South Africa.} We discussed the relationship between science communication and science engagement, and the challenges that early career researchers face in communicating the policy implications of their research. We also discussed (South) Africa's readiness for the Fourth Industrial Revolution and the emerging challenges.}
 
+\needspace{6\baselineskip}
 \section{Teaching Experience}
+\cventry{Sep, 2025 -- Present}{Facilitator and tutor}{Data Challenge module, MSc Health Data Science}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{Facilitate the Git and GitHub, and R for data exploration and visualisation sessions; tutor a group of 4--5 students on data challenges set by external organisations, including UKHSA, UNICEF, private start-ups, and public health data science companies.}
+\cventry{2024 -- 2026}{Lead facilitator}{Modelling for Pandemic Preparedness and Response}{German-West African Centre for Global Health and Pandemic Prevention (G-WAC)}{Kwame Nkrumah University of Science and Technology, Ghana}{Three iterations of the two-week short course, with over 65 participants in total.}
 \cventry{Jun, 2025}{Co-lead facilitator}{Outbreak Data Science for Lab Scientists: A Hands-On Introduction with the Epiverse R Package Ecosystem}{KEMRI Wellcome Trust Research Programme}{Kilifi, Kenya}{}
 \cventry{Apr, 2025}{Co-facilitator}{Hackathon on software tools for rapid outbreak analytics during humanitarian crises}{Humanitarian Modelling Dialogue Workshop, WHO Pandemic Hub}{Berlin, Germany}{}
-\cventry{Sep, 2024}{Lead facilitator}{Modelling for Pandemic Preparedness and Response}{German-West African Centre for Global Health and Pandemic Prevention (G-WAC)}{Kwame Nkrumah University of Science and Technology, Ghana}{}
 
 \cventry{Aug, 2022}{Co-lead facilitator}{Introduction to R: Management, Exploration, and Communication of Data}{SACEMA}{South Africa}{}
 
@@ -239,13 +260,16 @@ Stellenbosch University}{South Africa}{}{}
 
 \cventry{Sep, 2013 -- Jul, 2014}{Teaching assistant}{Introductory Probability and Statistics, and R for Statistical Analyses}{Department of Mathematics, Kwame Nkrumah University of Science and Technology}{Ghana}{}
 
+\needspace{6\baselineskip}
 \section{Student Supervision and Mentoring}
 \cventry{Jul, 2025 -- Aug, 2025}{Supervisor}{Health Data Research UK Black Internship Programme}{London School of Hygiene \& Tropical Medicine}{United Kingdom}{I supervised an intern over an 8-week period to develop applied skills in infectious disease forecasting and evaluation through a project assessing the performance of COVID-19 forecasts in the UK using \texttt{R}, \texttt{EpiNow2}, and \texttt{scoringutils}.}
 \cventry{Jul, 2024 -- Aug, 2024}{Mentor}{Health Data Research UK Black Internship Programme}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{For 8 weeks, I mentored an intern by providing advice on career trajectories, how to effectively conduct his research, and personal development in preparation for PhD studies.}
 \cventry{Apr, 2023 -- Jun, 2023}{Mentor}{Research Software Camp}{The Software Sustainability Institute}{United Kingdom}{In 3 months, I mentored a PhD student to develop a working knowledge of using R for running generalised linear mixed models. We worked our way up from no knowledge of R to running and interpreting regression models.}
 
+\needspace{6\baselineskip}
 \section{Professional Development}
 
+\needspace{6\baselineskip}
 \subsection{Workshops and Trainings}
 \cventry{Dec, 2025 -- Feb, 2026}{Diversifying Leadership Programme}{Advance HE}{London}{}{A 3-month leadership course that equipped me with a mindset to navigate institutional power dynamics by leveraging cultural capital and strategic networking. Developed practical skills in using Action Learning Sets to solve complex leadership challenges and refined a personal leadership story for increased visibility.}
 
@@ -291,6 +315,7 @@ Stellenbosch University}{South Africa}{}{}
 \cventry{Jul, 2015}{Computing in Applied Mathematical Sciences (CAMS)}
 {AIMS-Ghana}{}{}{}
 
+\needspace{6\baselineskip}
 \subsection{Short Courses}
 \cventry{Sep, 2023}{Equality \& Diversity Essentials}{London School of Hygiene \& Tropical Medicine}{London}{}{}
 \cventry{Nov, 2022}{GDPR Compliance: Essential Training}{LinkedIn Learning}{}{}{}
@@ -305,18 +330,22 @@ Stellenbosch University}{South Africa}{}{}
 \cventry{May, 2016}{Applying Quantitative Bias Analysis to Epidemiologic Data}{SACEMA}{Stellenbosch University}{South Africa}{}
 \cventry{Mar, 2016}{Bayesian Biostatistics}{SACEMA}{Stellenbosch University}{South Africa}{}
 
+\needspace{6\baselineskip}
 \section{Peer Review}
 
 \cvlistdoubleitem{Scientific Reports}{Journal of Open Source Software}
 \cvlistdoubleitem{PLOS Global Public Health}{Bulletin of Mathematical Biology}
 
+\needspace{6\baselineskip}
 \section{Open Source Contributions}
-\cventry{Nov, 2022 -- Present}{Developer \& maintainer}{\texttt{epichains} \& \texttt{bpmodels}}{}{}{R packages for simulating and analysing transmission chains using branching process models.}
-\cventry{Nov, 2022 -- Present}{Co-maintainer}{\texttt{EpiNow2}}{}{}{R package for estimating real-time infectious disease cases and time-varying epidemiological parameters.}
+\cventry{Nov, 2022 -- Present}{Developer \& maintainer}{\texttt{epichains} \& \texttt{bpmodels}}{}{}{R packages for simulating and analysing transmission chains using branching process models. \texttt{epichains} has over 6,000 CRAN downloads; it supersedes \texttt{bpmodels}, which was not released on CRAN.}
+\cventry{Nov, 2022 -- Present}{Co-maintainer}{\texttt{EpiNow2}}{}{}{R package for estimating real-time infectious disease cases and time-varying epidemiological parameters, with over 62,000 CRAN downloads.}
 \cventry{2023 -- Present}{Contributor}{\texttt{epinowcast}, \texttt{primarycensored}, and \texttt{scoringutils}}{}{}{R packages for nowcasting (\texttt{epinowcast}), estimating primary event censored delay distributions (\texttt{primarycensored}), and evaluating forecasts (\texttt{scoringutils}).}
 
+\needspace{6\baselineskip}
 \section{Technical Competencies}
 \cvitem{Programming tools}{R, Stan, Bash, GNU Make, GitHub \& Git}
+\cvitem{Machine learning}{Tree-based methods and gradient boosting (XGBoost, CatBoost, LightGBM) in R}
 \cvitem{Dashboard tools}{RShiny, Quarto Dashboards}
 \cvitem{Markup languages}{LaTeX, Markdown, R Markdown, HTML}
 \cvitem{Operating Systems}{MacOS, Linux/Ubuntu, Microsoft Windows}
@@ -324,7 +353,7 @@ Stellenbosch University}{South Africa}{}{}
 \cvitem{Project management}{Agile/scrum}
 \cvitem{Graphic Design}{Inkscape, Adobe suite, Camtasia, Canva, CapCut}
 
-\needspace{8\baselineskip}
+\needspace{6\baselineskip}
 \section{Positions of Responsibility}
 \cventry{Feb, 2023 -- Present}{Chair}{Black Early Career Staff Network}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{
 	\begin{itemize}
@@ -340,15 +369,18 @@ Stellenbosch University}{South Africa}{}{}
 \cventry{2017}{Student Representative}{SACEMA Strategic Planning Meeting}{Stellenbosch University}{South Africa}{}
 \cventry{2009 -- 2013}{Member of several committees}{Pax Romana Local and Pax Romana Choir}{Kwame Nkrumah University of Science and Technology}{Ghana}{} 
 
+\needspace{6\baselineskip}
 \section{Diversity, Equity, and Inclusion}
 \cventry{Dec, 2022 -- Oct, 2023}{Active Member}{Equity, Diversity, Inclusion, and Accessibility Working Group}{Society of Research Software Engineering}{United Kingdom}{}
 \cventry{Jul, 2023}{Career Panel Member}{Health Data Research UK Black Internship Programme}{London School of Hygiene \& Tropical Medicine}{United Kingdom}{}
 
+\needspace{6\baselineskip}
 \section{Professional Memberships}
 \cventry{Sep, 2024 -- Present}{Affiliate Member}{Joint UNIversities Pandemic and Epidemiological Research (JUNIPER)}{United Kingdom}{}{}
 \cventry{Sep, 2023 -- Present}{Member}{Models of Infectious Disease Agent Study (MIDAS)}{University of Pittsburgh}{United States}{}
 \cventry{Dec, 2022 -- Present}{Member}{Society of Research Software Engineering}{United Kingdom}{}{}
 
+\needspace{6\baselineskip}
 \section{Referees}
 \cvitem{}{Available upon request.}
 
