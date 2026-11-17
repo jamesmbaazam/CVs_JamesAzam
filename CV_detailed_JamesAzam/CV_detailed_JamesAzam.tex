@@ -13,6 +13,19 @@
 \usepackage{makecell}
 \usepackage{multicol}
 % Start a new page if less than #1 of space is left (keeps headings with their first entry)
+% Subsection headings: bold, with a thin rule to the end of the line and more space above
+\AtBeginDocument{%
+  \renewcommand*{\subsectionfont}{\large\bfseries\upshape}%
+  \renewcommand*{\subsectionstyle}[1]{{\subsectionfont\textcolor{subsectioncolor}{#1}}\hspace{0.6em}{\color{subsectioncolor!35}\leaders\hrule height 0.6pt depth 0pt\hfill\kern0pt}}%
+}
+\makeatletter
+\RenewDocumentCommand{\subsection}{sm}{%
+  \par\addvspace{2ex}%
+  \phantomsection{}%
+  \addcontentsline{toc}{subsection}{#2}%
+  \cvitem[0ex]{}{\strut\subsectionstyle{#2}}%
+  \par\nobreak\addvspace{1ex}\@afterheading}
+\makeatother
 \makeatletter
 \newcommand{\needspace}[1]{\par\begingroup\setlength{\dimen@}{#1}\dimen@ii\pagegoal\advance\dimen@ii-\pagetotal
   \ifdim\dimen@>\dimen@ii\ifdim\dimen@ii>\z@\vfil\fi\penalty-\@M\fi\endgroup}
@@ -125,7 +138,24 @@ Stellenbosch University}{South Africa}{}{}
 
 \cventry{Jan, 2025 -- Present}{Senior Research Fellow}{German-West African Centre for Global Health and Pandemic Prevention (G-WAC)}{Kwame Nkrumah University of Science and Technology}{Ghana}{Honorary appointment in recognition of contributions to G-WAC’s regional capacity building initiatives in infectious disease modelling and global health research. This role facilitates collaborative research, training, and data sharing, including the delivery of the \textit{Modelling for Pandemic Preparedness and Response} short course.}
 
-\needspace{6\baselineskip}
+\needspace{14\baselineskip}
+\section{Leadership}
+\cventry{Feb, 2023 -- Present}{Chair}{Black Early Career Staff Network}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{
+	\begin{itemize}
+		\item \textbf{Elected Chair} (Dec, 2025 -- Present).
+		\item \textbf{Acting Chair} (Apr, 2025 -- Dec, 2025): led the network through its formal recognition as a School staff network in Jun, 2025.
+		\item \textbf{Lead, Formation Task Force} (Jul, 2024 -- Jun, 2025): led the case for formalising the network. Drafted the terms of reference, the cover sheet for the School's EDI Committee, and the equality impact assessment; consulted members and incorporated their feedback; and advocated for formalisation at senior meetings, including with the EDI Office and the School's EDI Committee.
+		\item \textbf{Co-organiser} (Feb, 2023 -- Jul, 2024): co-organised the network informally before its formal recognition.
+	\end{itemize}
+}
+\cventry{Dec, 2025 -- Feb, 2026}{Diversifying Leadership Programme}{Advance HE}{London}{United Kingdom}{Three-month leadership development programme. Developed skills in navigating institutional power dynamics through cultural capital and strategic networking, in using Action Learning Sets to solve complex leadership challenges, and in articulating a personal leadership story.}
+\cventry{Jul, 2020 -- Jul, 2021}{President}{Association of Ghanaian Students in Stellenbosch University}{Stellenbosch University}{South Africa}{}
+\cventry{Jun, 2019 -- Jun, 2020}{Vice President}{Association of Ghanaian Students in Stellenbosch University}{Stellenbosch University}{South Africa}{}
+\cventry{2017}{Student Representative}{SACEMA Research Days planning committee}{Stellenbosch University}{South Africa}{}
+\cventry{2017}{Student Representative}{SACEMA Strategic Planning Meeting}{Stellenbosch University}{South Africa}{}
+\cventry{2009 -- 2013}{Member of several committees}{Pax Romana Local and Pax Romana Choir}{Kwame Nkrumah University of Science and Technology}{Ghana}{} 
+
+\needspace{10\baselineskip}
 \section{Publications}
 
 \needspace{6\baselineskip}
@@ -176,7 +206,7 @@ Stellenbosch University}{South Africa}{}{}
 
 \needspace{6\baselineskip}
 \subsection{Media}
-\cvlistitem{Forbes.com. Will Coronavirus Measures Slow The Spread Of Measles? Ask This Ghanaian. Jul 2020. URL: \url{https://www.forbes.com/sites/andrewwight/2020/07/29/will-coronavirus-measures-slow-measles-ask-this-ghanaian/}}
+\cvlistitem{\raggedright Forbes.com. Will Coronavirus Measures Slow The Spread Of Measles? Ask This Ghanaian. Jul 2020. URL: \url{https://www.forbes.com/sites/andrewwight/2020/07/29/will-coronavirus-measures-slow-measles-ask-this-ghanaian/}}
 
 \needspace{6\baselineskip}
 \section{Fellowships, Honours, and Awards}
@@ -192,7 +222,7 @@ Stellenbosch University}{South Africa}{}{}
 
 \cventry{Feb, 2016}{Master's Bursary}{R120,000}{SACEMA}{Stellenbosch University, South Africa}{}
 
-\needspace{6\baselineskip}
+\needspace{10\baselineskip}
 \section{Presentations}
 \needspace{6\baselineskip}
 \subsection{Conference Oral Presentations}
@@ -252,7 +282,8 @@ Stellenbosch University}{South Africa}{}{}
 \needspace{6\baselineskip}
 \section{Teaching Experience}
 \cventry{Nov, 2026 -- Present}{Facilitator and tutor}{Data Challenge module, MSc Health Data Science}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{Facilitate the Git and GitHub, and R for data exploration and visualisation sessions; tutor a group of 4--5 students on data challenges set by external organisations, including UKHSA, UNICEF, private start-ups, and public health data science companies.}
-\cventry{2024 -- 2026}{Lead facilitator}{Modelling for Pandemic Preparedness and Response}{German-West African Centre for Global Health and Pandemic Prevention (G-WAC)}{Kwame Nkrumah University of Science and Technology, Ghana}{Three iterations of the two-week short course, with over 65 participants in total from more than 15 African countries.}
+\cventry{2024 -- 2026}{Lead facilitator}{Modelling for Pandemic Preparedness and Response}{German-West African Centre for Global Health and Pandemic Prevention (G-WAC)}{Kwame Nkrumah University of Science and Technology, Ghana}{Three iterations of the two-week short course, with over 65 participants in total from more than 15 African countries. Coordinate the scientific content and the team of facilitators and tutors; teach the sessions on introduction to compartmental modelling and on model fitting and calibration; and supervise participants' one-month capstone projects.}
+\cventry{Jul, 2025 \& Jul, 2026}{Tutor}{Outbreak Analytics and Applied Modelling in R}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{Tutored the sessions on accessing epidemiological delays to estimate transmission and severity using the R packages \texttt{epiparameter}, \texttt{EpiNow2}, and \texttt{cfr}. Supported participants in applying the course materials to their own analytical problems and answered their questions.}
 \cventry{Jun, 2025}{Co-lead facilitator}{Outbreak Data Science for Lab Scientists: A Hands-On Introduction with the Epiverse R Package Ecosystem}{KEMRI Wellcome Trust Research Programme}{Kilifi, Kenya}{}
 \cventry{Apr, 2025}{Co-facilitator}{Hackathon on software tools for rapid outbreak analytics during humanitarian crises}{Humanitarian Modelling Dialogue Workshop, WHO Pandemic Hub}{Berlin, Germany}{}
 
@@ -266,17 +297,16 @@ Stellenbosch University}{South Africa}{}{}
 
 \needspace{6\baselineskip}
 \section{Student Supervision and Mentoring}
+\cventry{Apr, 2026 -- Apr, 2027}{Mentor}{Measles Analytics Hub Mentoring Scheme}{Imperial College London}{United Kingdom}{Mentoring and supervising a project on estimating subnational measles immunity in Uganda. The scheme builds analytics capacity in priority geographies by pairing early- and mid-career analysts with experienced mentors, who provide tailored guidance on modelling methods, epidemiological interpretation, data curation, reproducible workflows, and translating analyses into actionable insights for national immunisation programmes.}
 \cventry{Jul, 2025 -- Aug, 2025}{Supervisor}{Health Data Research UK Black Internship Programme}{London School of Hygiene \& Tropical Medicine}{United Kingdom}{I supervised an intern over an 8-week period to develop applied skills in infectious disease forecasting and evaluation through a project assessing the performance of COVID-19 forecasts in the UK using \texttt{R}, \texttt{EpiNow2}, and \texttt{scoringutils}.}
 \cventry{Jul, 2024 -- Aug, 2024}{Mentor}{Health Data Research UK Black Internship Programme}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{For 8 weeks, I mentored an intern by providing advice on career trajectories, how to effectively conduct his research, and personal development in preparation for PhD studies.}
 \cventry{Apr, 2023 -- Jun, 2023}{Mentor}{Research Software Camp}{The Software Sustainability Institute}{United Kingdom}{In 3 months, I mentored a PhD student to develop a working knowledge of using R for running generalised linear mixed models. We worked our way up from no knowledge of R to running and interpreting regression models.}
 
-\needspace{6\baselineskip}
+\needspace{10\baselineskip}
 \section{Professional Development}
 
 \needspace{6\baselineskip}
 \subsection{Workshops and Trainings}
-\cventry{Dec, 2025 -- Feb, 2026}{Diversifying Leadership Programme}{Advance HE}{London}{}{A 3-month leadership course that equipped me with a mindset to navigate institutional power dynamics by leveraging cultural capital and strategic networking. Developed practical skills in using Action Learning Sets to solve complex leadership challenges and refined a personal leadership story for increased visibility.}
-
 \cventry{Feb, 2025}{UK Epidemic Analytics and Modelling Meeting}{London School of Hygiene \& Tropical Medicine (HPRU in Health Analytics and Modelling)}{London}{United Kingdom}{This was a 2-day meeting of modellers from across the UK to network and brainstorm the way forward with pro-active preparedness towards a more efficient epidemic analytics in the UK.}
 
 \cventry{Nov, 2024}{Understanding, evaluating, and improving forecasts of infectious disease burden}{Infectious Disease Modelling Conference}{Bangkok}{Thailand}{This was a half-day pre-conference workshop.}
@@ -356,22 +386,6 @@ Stellenbosch University}{South Africa}{}{}
 \cvitem{Presentation}{Quarto Presentations, MS PowerPoint, LaTeX Beamer}
 \cvitem{Project management}{Agile/scrum}
 \cvitem{Graphic Design}{Inkscape, Adobe suite, Camtasia, Canva, CapCut}
-
-\needspace{6\baselineskip}
-\section{Positions of Responsibility}
-\cventry{Feb, 2023 -- Present}{Chair}{Black Early Career Staff Network}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{
-	\begin{itemize}
-		\item \textbf{Elected Chair} (Dec, 2025 -- Present).
-		\item \textbf{Acting Chair} (Apr, 2025 -- Dec, 2025): led the network through its formal recognition as a School staff network in Jun, 2025.
-		\item \textbf{Lead, Formation Task Force} (Jul, 2024 -- Jun, 2025): led the case for formalising the network. Drafted the terms of reference, the cover sheet for the School's EDI Committee, and the equality impact assessment; consulted members and incorporated their feedback; and advocated for formalisation at senior meetings, including with the EDI Office and the School's EDI Committee.
-		\item \textbf{Co-organiser} (Feb, 2023 -- Jul, 2024): co-organised the network informally before its formal recognition.
-	\end{itemize}
-}
-\cventry{Jul, 2020 -- Jul, 2021}{President}{Association of Ghanaian Students in Stellenbosch University}{Stellenbosch University}{South Africa}{}
-\cventry{Jun, 2019 -- Jun, 2020}{Vice President}{Association of Ghanaian Students in Stellenbosch University}{Stellenbosch University}{South Africa}{}
-\cventry{2017}{Student Representative}{SACEMA Research Days planning committee}{Stellenbosch University}{South Africa}{}
-\cventry{2017}{Student Representative}{SACEMA Strategic Planning Meeting}{Stellenbosch University}{South Africa}{}
-\cventry{2009 -- 2013}{Member of several committees}{Pax Romana Local and Pax Romana Choir}{Kwame Nkrumah University of Science and Technology}{Ghana}{} 
 
 \needspace{6\baselineskip}
 \section{Diversity, Equity, and Inclusion}
