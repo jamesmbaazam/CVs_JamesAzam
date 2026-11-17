@@ -1,16 +1,14 @@
 # CVs_JamesAzam
 
-LaTeX source for James Azam's CVs, in three versions:
+LaTeX source for James Azam's CV.
 
 | Folder | Description |
 |---|---|
 | `CV_detailed_JamesAzam/` | Full, detailed CV |
-| `CV_Academic_JamesAzam/` | Academic CV |
-| `CV_Academic_2_pager_JamesAzam/` | Short two-page academic CV |
 
 ## Building
 
-Compile a CV from its folder, for example:
+Compile the CV from its folder:
 
 ```sh
 cd CV_detailed_JamesAzam
