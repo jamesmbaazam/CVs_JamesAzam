@@ -12,6 +12,8 @@
 
 \usepackage{makecell}
 \usepackage{multicol}
+% Start a new page if less than #1 of space is left (keeps headings with their first entry)
+\newcommand{\needspace}[1]{\par\vskip 0pt plus #1\penalty -200\vskip 0pt plus -#1\relax}
 \renewcommand\theadalign{bc}
 \renewcommand\theadfont{\bfseries}
 \renewcommand\theadgape{\Gape[4pt]}
@@ -115,9 +117,9 @@ Stellenbosch University}{South Africa}{}{}
 
 \subsection{Published}
 
-\cvlistitem{Nightingale, E.S., Robert, A., Auzenbergs, M., \textbf{Azam, J.M.}, Villabona-Arenas, J., Fu, H., Sherratt, K., Funk, S., Jit, M., Atkins, K.E. \& O'Reilly, K. (2026). Bridging data and decision-making: A mathematical modelling perspective on infectious disease elimination. \textit{PLOS Global Public Health}.}
+\cvlistitem{Nightingale, E.S., Robert, A., Auzenbergs, M., \textbf{Azam, J.M.}, Villabona-Arenas, J., Fu, H., Sherratt, K., Funk, S., Jit, M., Atkins, K.E. \& O'Reilly, K. (2026). Bridging data and decision-making: A mathematical modelling perspective on infectious disease elimination. \textit{PLOS Global Public Health} (in press).}
 
-\cvlistitem{Cuartero, C.T., Lambert, J.W., Cuomo-Dannenburg, G., Fitzner, J., Ndumbi, P., Rice, C., Saulo, D., Waddell, L., \textbf{Azam, J.M.}, Doohan, P. \& Hicks, J.T. (2026). The impact of ambiguously reported epidemiological parameters for infectious disease modelling and recommended best practices. \textit{Epidemics}, 100942. \url{https://doi.org/10.1016/j.epidem.2026.100942}}
+\cvlistitem{Cuartero, C.T., Lambert, J.W., Cuomo-Dannenburg, G., Fitzner, J., Ndumbi, P., Rice, C., Saulo, D., Waddell, L., \textbf{Azam, J.M.}, Doohan, P., Hicks, J.T., McCain, K., Morgenstern, C., Naidoo, T.M., Ruybal-Pesántez, S., Rawson, T., Santoni, C., Unwin, H.J.T., Kucharski, A., Cori, A., Bhatia, S. \& McCabe, R. (2026). The impact of ambiguously reported epidemiological parameters for infectious disease modelling and recommended best practices. \textit{Epidemics}, 100942. \url{https://doi.org/10.1016/j.epidem.2026.100942}}
 
 \cvlistitem{van Zandvoort, K., Procter, S.R., \textbf{Azam, J.M.}, Sherratt, K. \& Davies, N.G. (2026). The risk of global Ebola virus spread is low: epidemiology of Ebola disease cases outside Africa, 1976 to May 2026. \textit{Eurosurveillance}, 31(24), 2600508. \url{https://doi.org/10.2807/1560-7917.ES.2026.31.24.2600508}}
 
@@ -179,15 +181,19 @@ Stellenbosch University}{South Africa}{}{}
 
 \cvitem{Nov, 2024}{Benchmarking time-varying reproduction number, $R_t$, and forecasting models -- a case study of the \texttt{EpiNow2} R package. \textit{Infectious Disease Modelling (IDM) Conference, Bangkok, Thailand}}
 
-\cvitem{Aug, 2023}{Superseding R packages – lessons learned from transitioning to the \texttt{epichains} R package from \texttt{bpmodels}. \textit{Research Software London Southeast conference, Imperial College London, United Kingdom}}
+\cvitem{Jul, 2023}{Superseding R packages – lessons learned from transitioning to the \texttt{epichains} R package from \texttt{bpmodels}. \textit{Research Software London Southeast conference, Imperial College London, United Kingdom}}
 
 \cvitem{Nov, 2021}{\textbf{JM Azam}, MJ Ferrari, JRC Pulliam. Modelling the relative benefits of using the measles vaccine outside cold chain for outbreak response. \textit{Epidemics 8, Elsevier (Virtual presentation)}}
+
+\cvitem{Sep, 2021}{\textbf{JM Azam}, X Pang, EB Are, MJ Ferrari, JRC Pulliam. Outbreak response intervention models of vaccine-preventable diseases in humans (1970--2019) -- A systematic review. \textit{SACEMA Research Days (PhD Student Presentation)}. Best student oral presentation.}
+
+\cvitem{Sep, 2020}{\textbf{JM Azam}, MJ Ferrari, JRC Pulliam. Modelling the relative benefits of using the measles vaccine outside cold chain for outbreak response. \textit{SACEMA Research Days (PhD Student Presentation)}. Best student oral presentation.}
 
 \cvitem{Oct, 2019}{\textbf{JM Azam}, MJ Ferrari, JRC Pulliam. Measles outbreak response: is it worthwhile to use the vaccine outside of the cold chain? \textit{Modelling in the Context of African Health (MoCAH)}, Durban, South Africa.}
 
 \cvitem{Sep, 2019}{\textbf{JM Azam}, X Pang, EB Are, MJ Ferrari, JRC Pulliam. Outbreak response models of human vaccine preventable diseases (1970-2019) - A systematic review. \textit{SACEMA Research Days (PhD Student Presentation)}, Stellenbosch, South Africa.}
 
-\cvitem{Sep, 2017}{\textbf{JM Azam}, JRC Pulliam. Measles in a school in Stellenbosch, South Africa. \textit{SACEMA Research Days (MSc Student Presentation)}, Stellenbosch, South Africa.}
+\cvitem{Aug, 2017}{\textbf{JM Azam}, JRC Pulliam. Measles in a school in Stellenbosch, South Africa. \textit{SACEMA Research Days (MSc Student Presentation)}, Stellenbosch, South Africa.}
 
 \subsection{Invited Talks}
 \cvitem{Nov, 2024}{Epiverse-TRACE: Advancing and Enabling Collaborative Open-Source R Tools for Outbreak Analytics, JUNIPER Weekly Seminar (virtual)}
@@ -318,9 +324,16 @@ Stellenbosch University}{South Africa}{}{}
 \cvitem{Project management}{Agile/scrum}
 \cvitem{Graphic Design}{Inkscape, Adobe suite, Camtasia, Canva, CapCut}
 
+\needspace{8\baselineskip}
 \section{Positions of Responsibility}
-\cventry{Dec, 2025 -- Present}{Elected Chair}{Black Early Career Staff Network}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{}
-\cventry{Apr, 2025 -- Dec, 2025}{Acting Chair}{Black Early Career Staff Network}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{}
+\cventry{Feb, 2023 -- Present}{Chair}{Black Early Career Staff Network}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{
+	\begin{itemize}
+		\item \textbf{Elected Chair} (Dec, 2025 -- Present).
+		\item \textbf{Acting Chair} (Apr, 2025 -- Dec, 2025): led the network through its formal recognition as a School staff network in Jun, 2025.
+		\item \textbf{Lead, Formation Task Force} (Jul, 2024 -- Jun, 2025): led the case for formalising the network. Drafted the terms of reference, the cover sheet for the School's EDI Committee, and the equality impact assessment; consulted members and incorporated their feedback; and advocated for formalisation at senior meetings, including with the EDI Office and the School's EDI Committee.
+		\item \textbf{Co-organiser} (Feb, 2023 -- Jul, 2024): co-organised the network informally before its formal recognition.
+	\end{itemize}
+}
 \cventry{Jul, 2020 -- Jul, 2021}{President}{Association of Ghanaian Students in Stellenbosch University}{Stellenbosch University}{South Africa}{}
 \cventry{Jun, 2019 -- Jun, 2020}{Vice President}{Association of Ghanaian Students in Stellenbosch University}{Stellenbosch University}{South Africa}{}
 \cventry{2017}{Student Representative}{SACEMA Research Days planning committee}{Stellenbosch University}{South Africa}{}
@@ -328,9 +341,8 @@ Stellenbosch University}{South Africa}{}{}
 \cventry{2009 -- 2013}{Member of several committees}{Pax Romana Local and Pax Romana Choir}{Kwame Nkrumah University of Science and Technology}{Ghana}{} 
 
 \section{Diversity, Equity, and Inclusion}
-\cventry{Jan, 2025 -- Present}{Lead and Acting Chair}{Black Early Career Staff Network Formation Task Force}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{}
 \cventry{Dec, 2022 -- Oct, 2023}{Active Member}{Equity, Diversity, Inclusion, and Accessibility Working Group}{Society of Research Software Engineering}{United Kingdom}{}
-\cventry{Jun, 2023 -- Sep, 2023}{Career Panel Member}{Health Data Research UK Black Internship Programme}{London School of Hygiene \& Tropical Medicine}{United Kingdom}{}
+\cventry{Jul, 2023}{Career Panel Member}{Health Data Research UK Black Internship Programme}{London School of Hygiene \& Tropical Medicine}{United Kingdom}{}
 
 \section{Professional Memberships}
 \cventry{Sep, 2024 -- Present}{Affiliate Member}{Joint UNIversities Pandemic and Epidemiological Research (JUNIPER)}{United Kingdom}{}{}
