@@ -64,3 +64,6 @@ rsconnect/
 *.bcf
 *.run.xml
 *.xdv
+
+# CV build directory
+build/
