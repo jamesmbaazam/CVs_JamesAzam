@@ -67,3 +67,5 @@ rsconnect/
 
 # CV build directory
 build/
+# PDF from compiling the master file directly in an editor (use make instead)
+/CV_JamesAzam.pdf
