@@ -8,9 +8,13 @@ Every version of the CV is built from one master file, `CV_JamesAzam.tex`:
 |---|---|---|
 | `detailed` | `pdf/CV_detailed_JamesAzam.pdf` | Full, detailed CV |
 | `academic` | `pdf/CV_academic_JamesAzam.pdf` | Academic CV |
-| `twopager` | `pdf/CV_twopager_JamesAzam.pdf` | Two-page academic CV |
+| `academic_twopager` | `pdf/CV_academic_twopager_JamesAzam.pdf` | Two-page academic CV |
 | `epidemiologist` | `pdf/CV_epidemiologist_JamesAzam.pdf` | CV for Senior Epidemiologist roles |
+| `epidemiologist_twopager` | `pdf/CV_epidemiologist_twopager_JamesAzam.pdf` | Two-page CV for Senior Epidemiologist roles |
 | `datascientist` | `pdf/CV_datascientist_JamesAzam.pdf` | CV for Data Scientist roles |
+| `datascientist_twopager` | `pdf/CV_datascientist_twopager_JamesAzam.pdf` | Two-page CV for Data Scientist roles |
+
+The two-page versions have no professional summary.
 
 ## Choosing what each version shows
 

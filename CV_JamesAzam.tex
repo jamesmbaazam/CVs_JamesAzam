@@ -3,9 +3,11 @@
 % The version is set at compile time through \cvtarget (see the Makefile):
 %   detailed        Detailed CV (the default)
 %   academic        Academic CV
-%   twopager        Two-page academic CV
-%   epidemiologist  Senior Epidemiologist roles
-%   datascientist   Data Scientist roles
+%   academic_twopager        Two-page academic CV
+%   epidemiologist           Senior Epidemiologist roles
+%   epidemiologist_twopager  Two-page CV for Senior Epidemiologist roles
+%   datascientist            Data Scientist roles
+%   datascientist_twopager   Two-page CV for Data Scientist roles
 %
 % \cvversion{<versions>}{<content>} shows <content> only in the listed versions.
 % \ifcvversion{<versions>}{<content>}{<other content>} picks between two variants.
@@ -49,13 +51,29 @@
 % CV versions
 \providecommand{\cvtarget}{detailed}
 \ExplSyntaxOn
-\exp_args:Nno \clist_if_in:nnF { detailed, academic, twopager, epidemiologist, datascientist } { \cvtarget }
-  { \PackageError { CV } { Unknown~CV~version~`\cvtarget' } { Set~\token_to_str:N \cvtarget \ to~one~of~the~versions~listed~at~the~top~of~the~file. } }
+% Versions are compared as strings, so underscores in names match however they were read
+\str_new:N \g__cv_target_str
+\str_gset:Ne \g__cv_target_str { \cvtarget }
+\bool_new:N \l__cv_match_bool
+\cs_new_protected:Npn \__cv_match:n #1
+  {
+    \bool_set_false:N \l__cv_match_bool
+    \clist_map_inline:nn {#1}
+      { \str_if_eq:eeT { \tl_to_str:n {##1} } { \g__cv_target_str } { \bool_set_true:N \l__cv_match_bool \clist_map_break: } }
+  }
+\__cv_match:n { detailed, academic, academic_twopager, epidemiologist, epidemiologist_twopager, datascientist, datascientist_twopager }
+\bool_if:NF \l__cv_match_bool
+  { \PackageError { CV } { Unknown~CV~version~`\g__cv_target_str' } { Set~\token_to_str:N \cvtarget \ to~one~of~the~versions~listed~at~the~top~of~the~file. } }
 \NewDocumentCommand { \cvversion } { m +m }
-  { \exp_args:Nno \clist_if_in:nnT {#1} { \cvtarget } {#2} }
+  { \__cv_match:n {#1} \bool_if:NT \l__cv_match_bool {#2} }
 \NewDocumentCommand { \ifcvversion } { m +m +m }
-  { \exp_args:Nno \clist_if_in:nnTF {#1} { \cvtarget } {#2} {#3} }
+  { \__cv_match:n {#1} \bool_if:NTF \l__cv_match_bool {#2} {#3} }
 \ExplSyntaxOff
+
+% Two-pagers only keep a heading with the first few lines below it, so sections fill the page
+\let\cvneedspace\needspace
+\ifcvversion{academic_twopager,epidemiologist_twopager,datascientist_twopager}{%
+  \renewcommand{\needspace}[1]{\cvneedspace{4\baselineskip}}}{}
 
 \firstname{James} % Your first name
 \familyname{Mba Azam} % Your last name
@@ -87,7 +105,7 @@
 \cventry{Nov, 2022 -- Present}{Developer \& maintainer}{\texttt{epichains} \& \texttt{bpmodels}}{}{}{R packages for simulating and analysing transmission chains using branching process models. \texttt{epichains} supersedes \texttt{bpmodels} and has over 6,000 CRAN downloads.\newline Citation: \textbf{Azam, J.M.}, Funk, S. \& Finger, F. (2024). \texttt{epichains}: Simulating and Analysing Transmission Chain Statistics Using Branching Process Models. R package version 0.1.1. \url{https://doi.org/10.5281/zenodo.13945039}}
 \cventry{Nov, 2022 -- Aug, 2025}{Co-maintainer}{\texttt{EpiNow2}}{}{}{R package for estimating real-time infectious disease cases and time-varying epidemiological parameters, with over 62,000 CRAN downloads.\newline Citation: Abbott, S., Hellewell, J., Sherratt, K., Gostic, K., Hickson, J., Badr, H.S., DeWitt, M., \textbf{Azam, J.M.}, Lison, A. \& Funk, S. (2026). \texttt{EpiNow2}: Estimate and Forecast Real-Time Infection Dynamics. R package version 1.9.0. \url{https://doi.org/10.5281/zenodo.3957489}}
 }%
-\cvversion{twopager,epidemiologist}{%
+\cvversion{epidemiologist,datascientist_twopager}{%
 \cventry{Nov, 2022 -- Present}{Developer \& maintainer}{\texttt{epichains} \& \texttt{bpmodels}}{}{}{R packages for simulating and analysing transmission chains using branching process models. \texttt{epichains} supersedes \texttt{bpmodels} and has over 6,000 CRAN downloads.}
 \cventry{Nov, 2022 -- Aug, 2025}{Co-maintainer}{\texttt{EpiNow2}}{}{}{R package for estimating real-time infectious disease cases and time-varying epidemiological parameters, with over 62,000 CRAN downloads.}
 }%
@@ -98,8 +116,9 @@
 
 \makecvtitle % Print the CV title
 
+\cvversion{detailed,academic,epidemiologist,datascientist}{%
 \section{Professional Summary}
-\cvversion{detailed,academic,twopager}{%
+\cvversion{detailed,academic}{%
 \cvitem{}{Infectious disease modeller developing mathematical, statistical and machine learning methods to evaluate outbreak response interventions and predict how outbreaks spread. As a Research Fellow at the Centre for Mathematical Modelling of Infectious Diseases, London School of Hygiene \& Tropical Medicine, currently developing spatial statistical and machine learning models to predict the timing and location of vaccine-derived poliovirus outbreaks in Africa and the Middle East, as part of a Gates Foundation-funded project. First-author research on outbreak response vaccination published in \textit{Epidemics} and \textit{Vaccine}. Developer of the \texttt{epichains} R package for analysing transmission chains, and former co-maintainer of the widely used \texttt{EpiNow2} R package for real-time outbreak analytics. Committed to teaching and capacity building, with experience teaching on the MSc Health Data Science, leading the \textit{Modelling for Pandemic Preparedness and Response} short course for participants from more than 15 African countries, and supervising and mentoring interns and early career researchers. Completed Advance HE's Diversifying Leadership Programme and chairs LSHTM's Black Early Career Staff Network.}
 }%
 \cvversion{epidemiologist}{%
@@ -108,8 +127,9 @@
 \cvversion{datascientist}{%
 \cvitem{}{Health data scientist with a PhD in Applied Mathematics and a track record of building machine learning models, statistical models and reproducible analysis pipelines for public health. Currently developing tree-based and gradient boosting models to predict the spatial spread of vaccine-derived poliovirus outbreaks at the London School of Hygiene \& Tropical Medicine, and previously co-maintained the \texttt{EpiNow2} R package (over 62,000 CRAN downloads) as a Research Software Engineer. Skilled in R, Stan, \texttt{tidymodels}, Git and GNU Make, and in turning complex analyses into open-source tools, dashboards and training for non-specialist users.}
 }%
+}%
 
-\cvversion{datascientist}{%
+\cvversion{datascientist,datascientist_twopager}{%
 \needspace{6\baselineskip}
 \section{Technical Competencies}
 \cvtechnicalcompetencies
@@ -146,7 +166,7 @@ Stellenbosch University}{South Africa}{}{}
 \vspace{0.4cm}
 }%
 
-\ifcvversion{twopager}{\needspace{6\baselineskip}}{\needspace{25\baselineskip}}
+\ifcvversion{academic_twopager,epidemiologist_twopager,datascientist_twopager}{\needspace{6\baselineskip}}{\needspace{25\baselineskip}}
 \section{Professional Experience}
 \cvversion{detailed,academic,epidemiologist,datascientist}{%
 \cventry{Sep, 2025 -- Present}{Research Fellow}{\textit{Centre for Mathematical Modelling of Infectious Diseases}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{
@@ -175,9 +195,17 @@ Stellenbosch University}{South Africa}{}{}
 	\end{itemize}
 }
 }%
-\cvversion{twopager}{%
+\cvversion{academic_twopager}{%
 \cventry{Sep, 2025 -- Present}{Research Fellow}{\textit{Centre for Mathematical Modelling of Infectious Diseases}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{Spatial statistical and machine learning models to predict vaccine-derived poliovirus outbreaks in Africa and the Middle East (Gates Foundation-funded). Teaching on the MSc Health Data Science.}
-\cventry{Nov, 2022 -- Aug, 2025}{Research Software Engineer}{\textit{Epiverse-TRACE}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{Developed the \texttt{epichains} R package and co-maintained \texttt{EpiNow2} for real-time outbreak analytics; delivered outbreak analytics training in Kenya and The Gambia.}
+\cventry{Nov, 2022 -- Aug, 2025}{Research Software Engineer}{\textit{Epiverse-TRACE}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{Developed the \texttt{epichains} R package (over 6,000 CRAN downloads) and co-maintained \texttt{EpiNow2} (over 62,000 CRAN downloads) for real-time outbreak analytics; delivered outbreak analytics training in Kenya and The Gambia.}
+}%
+\cvversion{epidemiologist_twopager}{%
+\cventry{Sep, 2025 -- Present}{Research Fellow}{\textit{Centre for Mathematical Modelling of Infectious Diseases}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{Spatial statistical and machine learning models to predict the timing and location of vaccine-derived poliovirus outbreaks and outbreak responses in Africa and the Middle East (Gates Foundation-funded).}
+\cventry{Nov, 2022 -- Aug, 2025}{Research Software Engineer}{\textit{Epiverse-TRACE}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{Co-maintained \texttt{EpiNow2}, used by the US CDC, WHO and ministries of health in responses to outbreaks of COVID-19, measles and mpox; developed the \texttt{epichains} R package for analysing transmission chains; delivered outbreak analytics training in Kenya and The Gambia.}
+}%
+\cvversion{datascientist_twopager}{%
+\cventry{Sep, 2025 -- Present}{Research Fellow}{\textit{Centre for Mathematical Modelling of Infectious Diseases}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{Spatial statistical and machine learning models, including tree-based and gradient boosting models, to predict vaccine-derived poliovirus outbreaks in Africa and the Middle East (Gates Foundation-funded). Teach Git, GitHub and R on the MSc Health Data Science.}
+\cventry{Nov, 2022 -- Aug, 2025}{Research Software Engineer}{\textit{Epiverse-TRACE}, London School of Hygiene \& Tropical Medicine}{London}{United Kingdom}{Developed the \texttt{epichains} R package and co-maintained \texttt{EpiNow2}; wrote package documentation, tutorials and how-to guides, and contributed code and code reviews to open-source outbreak analytics software.}
 }%
 
 \cvversion{detailed,academic,epidemiologist}{%
@@ -189,8 +217,10 @@ Stellenbosch University}{South Africa}{}{}
 }
 }%
 
-\ifcvversion{twopager}{%
-\cventry{Feb, 2022 -- Nov, 2022}{Junior Researcher}{The South African Centre for Epidemiological Modelling and Analysis (SACEMA)}{Stellenbosch}{South Africa}{Co-developed a polio transmission model to support South Africa's National Advisory Group on Immunization.}
+\ifcvversion{academic_twopager,epidemiologist_twopager,datascientist_twopager}{%
+\cvversion{academic_twopager}{\cventry{Feb, 2022 -- Nov, 2022}{Junior Researcher}{The South African Centre for Epidemiological Modelling and Analysis (SACEMA)}{Stellenbosch}{South Africa}{Co-developed a polio transmission model to support South Africa's National Advisory Group on Immunization, and an R and GNU Make pipeline for detecting changes in reported COVID-19 severity.}}%
+\cvversion{epidemiologist_twopager}{\cventry{Feb, 2022 -- Nov, 2022}{Junior Researcher}{The South African Centre for Epidemiological Modelling and Analysis (SACEMA)}{Stellenbosch}{South Africa}{Co-developed a spatial, age-structured polio transmission model to provide decision support to South Africa's National Advisory Group on Immunization on possible polio re-emergence.}}%
+\cvversion{datascientist_twopager}{\cventry{Feb, 2022 -- Nov, 2022}{Junior Researcher}{The South African Centre for Epidemiological Modelling and Analysis (SACEMA)}{Stellenbosch}{South Africa}{Co-developed an R and GNU Make pipeline for detecting changes in the trends of reported COVID-19 severity in South Africa, and a spatial, age-structured polio transmission model.}}%
 }{%
 \cventry{Feb, 2022 -- Nov, 2022}{Junior Researcher}{The South African Centre for Epidemiological Modelling and Analysis (SACEMA)}{Stellenbosch}{South Africa}{
 	\begin{itemize}
@@ -216,8 +246,10 @@ Stellenbosch University}{South Africa}{}{}
 		\item Contributed to the design of proposals for new analyses for Anglo American, including a study on Noise-Induced Hearing Loss among miners.
 \end{itemize}}
 }%
+\cvversion{epidemiologist_twopager}{\cventry{Feb, 2021 -- Sep, 2021}{Data Science Consultant (Part-time)}{Winning Insights and Models for Marvellous Yields (Wimmy)}{Cape Town}{South Africa}{Extended a COVID-19 model to analyse the impact of vaccine rollout in South Africa, Chile, Peru, and Zimbabwe.}}%
+\cvversion{datascientist_twopager}{\cventry{Feb, 2021 -- Sep, 2021}{Data Science Consultant (Part-time)}{Winning Insights and Models for Marvellous Yields (Wimmy)}{Cape Town}{South Africa}{Improved the calibration, validation, and run-time of a COVID-19 model.}}%
 
-\cvversion{datascientist}{\cvresearchsoftware}
+\cvversion{datascientist,datascientist_twopager}{\cvresearchsoftware}
 
 \cvversion{detailed,academic,epidemiologist}{%
 \needspace{8\baselineskip}
@@ -255,13 +287,15 @@ Stellenbosch University}{South Africa}{}{}
 
 }%
 
-\cvversion{detailed,academic,twopager,epidemiologist}{%
+\cvversion{detailed,academic,academic_twopager,epidemiologist,epidemiologist_twopager}{%
 \cvlistitem{van Zandvoort, K., Procter, S.R., \textbf{Azam, J.M.}, Sherratt, K. \& Davies, N.G. (2026). The risk of global Ebola virus spread is low: epidemiology of Ebola disease cases outside Africa, 1976 to May 2026. \textit{Eurosurveillance}, 31(24), 2600508. \url{https://doi.org/10.2807/1560-7917.ES.2026.31.24.2600508}}
 
+}%
+\cvversion{detailed,academic,academic_twopager,epidemiologist}{%
 \cvlistitem{Aheto, J.M.K., Auzenbergs, M., Ferrari, M.J., Portnoy, A., Utazi, C.E., Kakaï, R.G., Gayawan, E., \textbf{Azam, J.M.} \& Nonvignon, J. (2026). Rebalancing power in infectious disease modelling: Toward inclusive and contextual approaches. \textit{PLOS Global Public Health}, 6(4), e0006220. \url{https://doi.org/10.1371/journal.pgph.0006220}}
 
 }%
-\cvversion{detailed,academic,epidemiologist}{%
+\cvversion{detailed,academic,epidemiologist,epidemiologist_twopager}{%
 \cvlistitem{Ward, J., Lambert, J.W., Russell, T.W., \textbf{Azam, J.M.}, Kucharski, A.J., Funk, S., \dots \& Edmunds, W.J. (2025). Estimates of epidemiological parameters for H5N1 influenza in humans: a rapid review. \textit{BMC Infectious Diseases}, 25(1), 1755. \url{https://doi.org/10.1186/s12879-025-11933-z}}
 
 }%
@@ -322,7 +356,7 @@ Stellenbosch University}{South Africa}{}{}
 \cvlistitem{\raggedright Forbes.com. Will Coronavirus Measures Slow The Spread Of Measles? Ask This Ghanaian. Jul 2020. URL: \url{https://www.forbes.com/sites/andrewwight/2020/07/29/will-coronavirus-measures-slow-measles-ask-this-ghanaian/}}
 
 }%
-\cvversion{detailed,academic,twopager,epidemiologist}{\cvresearchsoftware}
+\cvversion{detailed,academic,epidemiologist}{\cvresearchsoftware}
 
 \cvversion{detailed,academic}{%
 \needspace{6\baselineskip}
@@ -359,11 +393,9 @@ Stellenbosch University}{South Africa}{}{}
 		\item \textbf{Co-organiser} (Feb, 2023 -- Jul, 2024): co-organised the network informally before its formal recognition.
 	\end{itemize}
 }
-}{\ifcvversion{twopager}{%
-\cventry{Feb, 2023 -- Present}{Chair}{Black Early Career Staff Network}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{Led the network through its formal recognition as an LSHTM staff network in Jun, 2025.}
 }{%
 \cventry{Feb, 2023 -- Present}{Chair}{Black Early Career Staff Network}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{Elected Chair since Dec, 2025. Led the network through its formal recognition as an LSHTM staff network in Jun, 2025, work that formed part of LSHTM's application for the Advance HE Race Equality Charter Bronze Award.}
-}}%
+}%
 \cvversion{detailed,academic}{%
 \cventry{Jul, 2020 -- Jul, 2021}{President}{Association of Ghanaian Students in Stellenbosch University}{Stellenbosch University}{South Africa}{}
 \cventry{Jun, 2019 -- Jun, 2020}{Vice President}{Association of Ghanaian Students in Stellenbosch University}{Stellenbosch University}{South Africa}{}
@@ -388,18 +420,20 @@ Stellenbosch University}{South Africa}{}{}
 \cventry{Jul, 2023}{Career Panel Member}{Health Data Research UK Black Internship Programme}{London School of Hygiene \& Tropical Medicine}{United Kingdom}{}
 }%
 
-\cvversion{detailed,academic,epidemiologist,datascientist}{%
 \needspace{10\baselineskip}
-\section{Presentations}
+\ifcvversion{detailed,academic,epidemiologist,datascientist}{\section{Presentations}}{\section{Selected Presentations}}
+\cvversion{detailed,academic,epidemiologist,datascientist}{%
 \needspace{6\baselineskip}
 \subsection{Conference Oral Presentations}
 
+}%
+\cvversion{detailed,academic,epidemiologist,datascientist,academic_twopager,datascientist_twopager}{%
 \cvitem{Apr, 2025}{\texttt{epichains}: an R package for analysing transmission chains data. \textit{Humanitarian Modelling Dialogue Workshop, WHO Pandemic Hub, Berlin, Germany}}
 
 \cvitem{Nov, 2024}{Benchmarking time-varying reproduction number, $R_t$, and forecasting models -- a case study of the \texttt{EpiNow2} R package. \textit{Infectious Disease Modelling (IDM) Conference, Bangkok, Thailand}}
 
 }%
-\cvversion{detailed,academic,datascientist}{%
+\cvversion{detailed,academic,datascientist,datascientist_twopager}{%
 \cvitem{Jul, 2023}{Superseding R packages – lessons learned from transitioning to the \texttt{epichains} R package from \texttt{bpmodels}. \textit{Research Software London Southeast conference, Imperial College London, United Kingdom}}
 
 }%
@@ -425,11 +459,11 @@ Stellenbosch University}{South Africa}{}{}
 \cvitem{Nov, 2024}{Epiverse-TRACE: Advancing and Enabling Collaborative Open-Source R Tools for Outbreak Analytics, JUNIPER Weekly Seminar (virtual)}
 
 }%
-\cvversion{detailed,academic,epidemiologist}{%
+\cvversion{detailed,academic,academic_twopager,epidemiologist,epidemiologist_twopager}{%
 \cvitem{Nov, 2024}{Summary of analytical and statistical tools available for modelling pandemic H5N1 containment and mitigation, WHO R\&D Blueprint Virtual Consultation}
 
 }%
-\cvversion{detailed,academic,epidemiologist,datascientist}{%
+\cvversion{detailed,academic,epidemiologist,datascientist,epidemiologist_twopager}{%
 \cvitem{Sep, 2024}{Mpox 2024 outbreak: Common analytics tasks and available R tools/packages. Presented to the UK Pandemic Sciences Network and the World Health Organization Mpox Analytics Collaboratory Seminars}
 
 }%
@@ -463,10 +497,11 @@ Stellenbosch University}{South Africa}{}{}
 }%
 \needspace{6\baselineskip}
 \section{Teaching Experience}
-\ifcvversion{twopager}{%
-\cventry{Nov, 2026 -- Present}{Facilitator and tutor}{Data Challenge module, MSc Health Data Science}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{}
-\cventry{2024 -- 2026}{Lead facilitator}{Modelling for Pandemic Preparedness and Response}{German-West African Centre for Global Health and Pandemic Prevention (G-WAC)}{Kwame Nkrumah University of Science and Technology, Ghana}{}
+\ifcvversion{academic_twopager,epidemiologist_twopager,datascientist_twopager}{%
+\cvversion{academic_twopager,datascientist_twopager}{\cventry{Nov, 2026 -- Present}{Facilitator and tutor}{Data Challenge module, MSc Health Data Science}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{}}%
+\cvversion{academic_twopager,epidemiologist_twopager}{\cventry{2024 -- 2026}{Lead facilitator}{Modelling for Pandemic Preparedness and Response}{German-West African Centre for Global Health and Pandemic Prevention (G-WAC)}{Kwame Nkrumah University of Science and Technology, Ghana}{Three iterations of the two-week short course, with over 65 participants in total from more than 15 African countries.}}%
 \cventry{Jul, 2025 \& Jul, 2026}{Tutor}{Outbreak Analytics and Applied Modelling in R}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{}
+\cvversion{epidemiologist_twopager}{\cventry{Jun, 2025}{Co-lead facilitator}{Outbreak Data Science for Lab Scientists: A Hands-On Introduction with the Epiverse R Package Ecosystem}{KEMRI Wellcome Trust Research Programme}{Kilifi, Kenya}{}}%
 }{%
 \cventry{Nov, 2026 -- Present}{Facilitator and tutor}{Data Challenge module, MSc Health Data Science}{London School of Hygiene \& Tropical Medicine}{London, United Kingdom}{Facilitate the Git and GitHub, and R for data exploration and visualisation sessions; tutor a group of 4--5 students on data challenges set by external organisations, including UKHSA, UNICEF, private start-ups, and public health data science companies.}
 \cventry{2024 -- 2026}{Lead facilitator}{Modelling for Pandemic Preparedness and Response}{German-West African Centre for Global Health and Pandemic Prevention (G-WAC)}{Kwame Nkrumah University of Science and Technology, Ghana}{Three iterations of the two-week short course, with over 65 participants in total from more than 15 African countries, and an overall course rating above 4.2 out of 5 from participants in every iteration. Coordinate the scientific content and the team of facilitators and tutors; teach the sessions on introduction to compartmental modelling and on model fitting and calibration; and supervise participants' one-month capstone projects.}
@@ -484,6 +519,12 @@ Stellenbosch University}{South Africa}{}{}
 
 \cventry{Sep, 2013 -- Jul, 2014}{Teaching assistant}{Introductory Probability and Statistics, and R for Statistical Analyses}{Department of Mathematics, Kwame Nkrumah University of Science and Technology}{Ghana}{}
 
+}%
+\cvversion{academic_twopager,epidemiologist_twopager,datascientist_twopager}{%
+\needspace{6\baselineskip}
+\section{Student Supervision and Mentoring}
+\cvversion{academic_twopager,epidemiologist_twopager}{\cventry{Apr, 2026 -- Apr, 2027}{Mentor}{Measles Analytics Hub Mentoring Scheme}{Imperial College London}{United Kingdom}{}}%
+\cventry{Jul, 2025 -- Aug, 2025}{Supervisor}{Health Data Research UK Black Internship Programme}{London School of Hygiene \& Tropical Medicine}{United Kingdom}{Supervised an 8-week project assessing the performance of COVID-19 forecasts in the UK using \texttt{R}, \texttt{EpiNow2}, and \texttt{scoringutils}.}
 }%
 \cvversion{detailed,academic,epidemiologist,datascientist}{%
 \needspace{10\baselineskip}
@@ -594,7 +635,7 @@ Stellenbosch University}{South Africa}{}{}
 \section{Technical Competencies}
 \cvtechnicalcompetencies
 }%
-\cvversion{twopager}{%
+\cvversion{academic_twopager,epidemiologist_twopager}{%
 \needspace{6\baselineskip}
 \section{Technical Competencies}
 \cvitem{Programming tools}{R, Stan, Bash, GNU Make, GitHub \& Git}

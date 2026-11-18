@@ -7,7 +7,7 @@
 # PDFs are written to pdf/; LaTeX build files go to build/.
 
 MASTER   := CV_JamesAzam.tex
-VERSIONS := detailed academic twopager epidemiologist datascientist
+VERSIONS := detailed academic academic_twopager epidemiologist epidemiologist_twopager datascientist datascientist_twopager
 BUILD    := build
 OUT      := pdf
 
