@@ -1,7 +1,5 @@
 # James Azam's CV: LaTeX source for academic, epidemiologist and data scientist versions
 
-LaTeX source for James Azam's CV.
-
 Every version of the CV is built from one master file, [`CV_JamesAzam.tex`](CV_JamesAzam.tex):
 
 | Version | PDF | Description |
