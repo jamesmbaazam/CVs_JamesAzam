@@ -1,0 +1,113 @@
+name: Career plan review
+
+# Every six months, review the checklist in the career development plan issue
+# and post a comment summarising progress and the items still open.
+
+on:
+  schedule:
+    - cron: "0 9 1 1,7 *" # 09:00 UTC on 1 January and 1 July
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+env:
+  PLAN_ISSUE: 4
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on the career development plan
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue_number = Number(process.env.PLAN_ISSUE);
+            const { owner, repo } = context.repo;
+            const marker = "career-plan-review";
+
+            const { data: issue } = await github.rest.issues.get({ owner, repo, issue_number });
+            if (issue.state !== "open") {
+              core.notice(`Issue #${issue_number} is closed, so no review comment was posted.`);
+              return;
+            }
+
+            // Parse the task list items under each "##" section of the issue body.
+            const sections = [];
+            let section = { title: "Other", items: [] };
+            for (const line of (issue.body || "").split(/\r?\n/)) {
+              const heading = line.match(/^##\s+(.+?)\s*$/);
+              if (heading) {
+                if (section.items.length) sections.push(section);
+                section = { title: heading[1], items: [] };
+                continue;
+              }
+              const task = line.match(/^\s*[-*]\s+\[([ xX])\]\s+(.+?)\s*$/);
+              if (task) section.items.push({ done: task[1] !== " ", text: task[2] });
+            }
+            if (section.items.length) sections.push(section);
+
+            const items = sections.flatMap(s => s.items.map(i => ({ ...i, section: s.title })));
+            if (!items.length) {
+              core.notice(`Issue #${issue_number} has no task list items, so no review comment was posted.`);
+              return;
+            }
+            // Items are matched by their text, so renaming a section doesn't count as a change.
+            const key = i => i.text;
+            const done = items.filter(i => i.done);
+
+            // Compare with the state saved in the last review comment.
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number, per_page: 100 });
+            const statePattern = new RegExp(`<!-- ${marker}:([A-Za-z0-9+/=]+) -->`);
+            let previous = null;
+            for (const comment of comments) {
+              const saved = (comment.body || "").match(statePattern);
+              if (saved) previous = { date: comment.created_at.slice(0, 10), ...JSON.parse(Buffer.from(saved[1], "base64").toString("utf8")) };
+            }
+
+            const lines = [];
+            lines.push("## Six-monthly review of the career development plan", "");
+            lines.push(`**Progress:** ${done.length} of ${items.length} items done (${Math.round(100 * done.length / items.length)}%).`, "");
+
+            if (!previous) {
+              lines.push("**Since the last review:** this is the first review.", "");
+            } else {
+              const wasDone = new Set(previous.done);
+              const known = new Set(previous.all);
+              const nowKeys = new Set(items.map(key));
+              const newlyDone = done.filter(i => !wasDone.has(key(i)));
+              const reopened = items.filter(i => !i.done && wasDone.has(key(i)));
+              const added = items.filter(i => !known.has(key(i)));
+              const removed = previous.all.filter(k => !nowKeys.has(k));
+              lines.push(`**Since the last review (${previous.date}):** ${previous.done.length} of ${previous.all.length} items were done then.`, "");
+              const changes = [
+                ["Ticked off", newlyDone.map(i => i.text)],
+                ["Unticked", reopened.map(i => i.text)],
+                ["Added", added.map(i => i.text)],
+                ["Removed or reworded", removed],
+              ].filter(([, list]) => list.length);
+              if (!changes.length) {
+                lines.push("No items have changed since then.", "");
+              } else {
+                for (const [label, list] of changes) {
+                  lines.push(`${label}:`, ...list.map(t => `- ${t}`), "");
+                }
+              }
+            }
+
+            const open = sections.filter(s => s.items.some(i => !i.done));
+            if (open.length) {
+              lines.push("### Open items", "");
+              for (const s of open) {
+                lines.push(`**${s.title}**`, ...s.items.filter(i => !i.done).map(i => `- ${i.text}`), "");
+              }
+              lines.push(`Please act on the open items above, or tick off any you've already done in the issue description so the next review counts them.`);
+            } else {
+              lines.push("All items are done. Consider closing this issue or adding new goals.");
+            }
+
+            const state = { done: done.map(key), all: items.map(key) };
+            lines.push("", `<!-- ${marker}:${Buffer.from(JSON.stringify(state), "utf8").toString("base64")} -->`);
+
+            await github.rest.issues.createComment({ owner, repo, issue_number, body: lines.join("\n") });
+            core.notice(`Posted a review comment on #${issue_number}: ${done.length} of ${items.length} items done.`);
