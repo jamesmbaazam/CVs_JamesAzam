@@ -1,0 +1,71 @@
+name: Build CV PDFs
+
+# Rebuild every CV version whenever the master file, the Makefile or this
+# workflow changes, and commit the updated PDFs in pdf/ back to the branch.
+
+on:
+  push:
+    paths:
+      - CV_JamesAzam.tex
+      - Makefile
+      - .github/workflows/build-pdfs.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-pdfs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TinyTeX
+        uses: r-lib/actions/setup-tinytex@v2
+        env:
+          TINYTEX_INSTALLER: TinyTeX-1
+
+      - name: Install the LaTeX packages the CV uses
+        run: |
+          tlmgr update --self
+          tlmgr install latexmk moderncv fontawesome6 makecell multirow microtype \
+            ragged2e enumitem colortbl lm ec fancyhdr xcolor pgf etoolbox
+
+      - name: Install pdfinfo
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Build all versions
+        run: |
+          # Stamp the PDFs with the commit time so an unchanged CV gives identical PDFs
+          export SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
+          export FORCE_SOURCE_DATE=1
+          make -B
+
+      - name: Check the two-page versions are two pages
+        run: |
+          status=0
+          for f in pdf/*_twopager_*.pdf; do
+            pages=$(pdfinfo "$f" | awk '/^Pages:/ {print $2}')
+            echo "$f: $pages pages"
+            if [ "$pages" != "2" ]; then
+              echo "::error file=$f::$f has $pages pages, expected 2"
+              status=1
+            fi
+          done
+          exit $status
+
+      - name: Commit the updated PDFs
+        run: |
+          git add pdf/
+          if git diff --cached --quiet; then
+            echo "The PDFs are already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Rebuild the CV PDFs"
+          git push
